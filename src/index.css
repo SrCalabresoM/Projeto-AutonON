@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@plugin "@tailwindcss/typography";
 
 /* esconder aquea barra chata*/
 .fc-timeGridWeek-view .fc-timegrid-slot-label-cushion,

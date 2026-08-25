@@ -7,7 +7,7 @@ import Login from "../features/auth/Login.jsx";
 import Perfil from "../features/auth/Perfil.jsx";
 import PaginaPublica from "../features/public/PaginaPublica.jsx";
 import Criar from "../features/Criar.jsx";
-import Dashboard from "../features/public/Dashboard.jsx";
+import Dashboard from "../features/public/Dashboard/Dashboard.jsx";
 import Agendamento from "../features/public/Agendamento.jsx";
 
  function AppRoutes() {
