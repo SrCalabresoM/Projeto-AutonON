@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 function MiniCalendário({profissionalUsername}) {
     const navigate = useNavigate();
+    
     return(
         <div>
 

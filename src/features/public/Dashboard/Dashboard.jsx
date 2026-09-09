@@ -160,31 +160,34 @@ function Dashboard() {
     );
     console.log(fotoUrl, galeriaUrls, profissionalId, temaSelecionado, content, servicos, nome);
     
-    await supabase
+        await supabase
         .from("paginas")
-        .upsert({
-            profissional_id: profissionalId,
-            tema: temaSelecionado,
-            descricao: content,
-            servicos: servicos,
-            galeria: galeriaUrls,
-            configuracoes: {},
-            name: nome,
-            foto: fotoUrl
-        });
+        .upsert(
+            {
+                profissional_id: profesionalId,
+                tema: temaSelecionado,
+                descricao: content,
+                servicos: servicos,
+                galeria: galeriaUrls,
+                configuracoes: {},
+                name: nome,
+                foto: fotoUrl
+            },
+            { onConflict: 'profissional_id' }
+        )
     }
-
+    
     async function uploadImagem(arquivo, tipo) {
         if (!arquivo || !profissionalId) return null;
 
         const extensao = arquivo.name.split(".").pop();
-        const nomeArquivo = `${crypto.randomUUID()}.${extensao}`;
+        const nomeArquivo = `${tipo}.${extensao}`;
 
         const caminho = `profissionais/${profissionalId}/${tipo}/${nomeArquivo}`;
 
         const { error } = await supabase.storage
             .from("imagens")
-            .upload(caminho, arquivo);
+            .upload(caminho, arquivo, { upsert: true });
 
         if (error) {
             console.error("Erro ao enviar imagem:", error);
@@ -197,5 +200,6 @@ function Dashboard() {
 
         return data.publicUrl;
     };
+
 } 
 export default Dashboard;

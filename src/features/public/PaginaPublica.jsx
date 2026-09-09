@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase.js";
 import { useState, useEffect } from "react";
 import MiniCalendário from "./MiniCalendário.jsx";
+import Rate from "./Rate.jsx";
 
 function PaginaPublica() {
 
@@ -10,6 +11,8 @@ function PaginaPublica() {
     const [profissional, setProfissional] = useState(null);
     const [pagina, setPagina] = useState(null);
     const [fotoAtiva, setFotoAtiva] = useState(null);
+    const [media, setMedia] = useState(0);
+    const [nota, setNota] = useState(0);
 
     useEffect(() => {
 
@@ -49,6 +52,25 @@ function PaginaPublica() {
 
     }, [username]);
 
+    const carregarMedia = async () => {
+        if (!pagina) return;
+
+        const { data: mediaa, error } = await supabase
+            .rpc('obter_media_pagina', { id_da_pagina: pagina.id });
+
+        if (error) {
+            console.error('Erro ao buscar média:', error.message);
+            return 0;
+        }
+
+        setMedia(mediaa);
+    };
+
+    useEffect(() => {
+            carregarMedia();
+            console.log(nota)
+        }, [pagina?.id, nota]);
+
     if (!profissional) {
         return <p>A página que você busca não existe</p>;
     }
@@ -57,6 +79,7 @@ function PaginaPublica() {
         return <p>Carregando...</p>;
     }
 
+    
     const tema = pagina.tema
         ? typeof pagina.tema === "string"
             ? JSON.parse(pagina.tema)
@@ -70,7 +93,6 @@ function PaginaPublica() {
         : [];
 
     const galeria = pagina.galeria || [];
-
 
 return (
 
@@ -204,6 +226,17 @@ return (
             <MiniCalendário 
               profissionalUsername={profissional.username}
             />
+
+
+            <div>
+                <h2 className="text-xl font-bold mb-4 text-[var(--texto)]">
+                    Conhece esse autônomo? Avalie-o {"    (" + (media || 0) + ")"}
+                </h2>
+                <Rate 
+                paginaId={pagina.id}
+                setNota={setNota}
+                />
+            </div>
         </div>
 
     </div>

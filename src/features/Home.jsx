@@ -19,6 +19,7 @@ export default function Home() {
           nome,
           username,
           paginas!profissional_id (
+            id,
             foto,
             servicos,
             name
@@ -30,14 +31,38 @@ export default function Home() {
         console.log(error);
         return;
       }
+        const profissionaisMedidos = await Promise.all(
 
-      setProfissionais(data);
+          data.map(async (profissional) => {
+            if (!profissional.paginas?.id) {
+                return {
+                  ...profissional,
+                  media: 0
+                };
+              }
 
+            const { data: media} = await supabase
+              .rpc("obter_media_pagina", {
+                id_da_pagina: profissional.paginas?.id
+              });
+            
+
+            return {
+              ...profissional,
+              media
+            };
+
+          })
+       )
+      
+       setProfissionais(profissionaisMedidos);
+      
     }
 
     carregarProfissionais();
 
   }, []);
+  
 
   const profissionaisFilter = profissionais.filter((profissional) => {
 
@@ -109,7 +134,7 @@ export default function Home() {
                 onClick={() => {navigate(`a/${profissional.username}`)}}
               >
 
-                <div className="h-40 bg-gray-100">
+                <div className="h-40 bg-gray-100 relative">
 
                   {foto && (
                     <img
@@ -118,6 +143,13 @@ export default function Home() {
                       className="w-full h-full object-cover"
                     />
                   )}
+
+                  <div className="absolute top-2 right-2 bg-white px-2 py-0.5 rounded flex items-center gap-1 text-sm font-semibold text-gray-800 shadow-sm">
+                    <svg className="w-4 h-4 text-yellow-500 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                    <span>{profissional.media}</span>
+                  </div>
 
                 </div>
 
@@ -140,6 +172,7 @@ export default function Home() {
 
               </div>
             );
+
 
           })}
 
