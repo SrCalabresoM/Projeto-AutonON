@@ -1,21 +1,22 @@
 import { supabase } from "../../lib/supabase";
 
-const bloqueiosFixos = [
-  { start: "09:00", end: "09:20" },
-  { start: "12:00", end: "14:00"}
-];
+
 
 //funções para bloquear o horárionão permitido
-export function gerarBloqueios(rangeStart, rangeEnd, setBloqueiosGerados) {
+export function gerarBloqueios(rangeStart, rangeEnd, setBloqueiosGerados, intervalo) {
   const novos = [];
   const current = new Date(rangeStart);
   current.setHours(0, 0, 0, 0);
   
+  if (!intervalo || !Array.isArray(intervalo) || intervalo.length === 0) {
+    setBloqueiosGerados([]);
+    return;
+  }
 
   while (current < rangeEnd) {
     const dataIso = current.toISOString().split("T")[0];
 
-    bloqueiosFixos.forEach((b, index) => {
+    intervalo.forEach((b, index) => {
       const inicio = new Date(current);
       const [h1, m1] = b.start.split(":");
       inicio.setHours(parseInt(h1), parseInt(m1), 0);
@@ -48,11 +49,13 @@ export function gerarBloqueios(rangeStart, rangeEnd, setBloqueiosGerados) {
   });
 }
 
-export function horarioBloqueado(date) {
+export function horarioBloqueado(date, intervalo) {
   const hora = date.getHours();
   const minuto = date.getMinutes();
 
-  return bloqueiosFixos.some(b => {
+  if (!intervalo || !Array.isArray(intervalo) || intervalo.length === 0) return false;
+
+  return intervalo.some(b => {
     const [h1, m1] = b.start.split(":").map(Number);
     const [h2, m2] = b.end.split(":").map(Number);
 
@@ -192,6 +195,7 @@ export async function deleteAll(eventRecurrence, setMenuFalse) {
 
 export function somarMinutos(hora, duracao) { //função pronta que recebe o horario inicial e a duração e retorna o horário final
   const [h, m] = hora.split(":").map(Number);
+  if (!duracao || typeof duracao !== 'string') return hora;
   const [, minutos] = duracao.split(":").map(Number);
 
   const totalMinutos = h * 60 + m + minutos;

@@ -60,12 +60,12 @@ function Servicos({servicos, setServicos}) {
                             className="border p-2 rounded w-40"
                             placeholder="Preço"
                             intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
-                            defaultValue={0}
+                            value={servico.preco}
                             onValueChange={(value) => {
                                 handleServico(
                                     index,
                                     'preco',
-                                    Number(value.replace(",","."))
+                                    Number((value || "").replace(",","." ))
                                 )
                             }}
                         />

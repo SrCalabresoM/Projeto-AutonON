@@ -28,7 +28,7 @@ function Calendario() {
   const [eventos, setEventos] = useState([]);
   const calendarRef = useRef(null); 
   const [menu, setMenu] = useState(false);
-  const [startTime, setStartTime] = useState("08:00");
+  const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("08:15");
   const [selectedDate, setSelectedDate] = useState(null);
   const [clickEvent, setClickEvent] = useState("stranger");
@@ -38,6 +38,8 @@ function Calendario() {
   const [repeatCount, setRepeatCount] = useState(0);
   const [repeatInterval, setRepeatInterval] = useState(7);
   const [eventRecurrence, setEventRecurrrence] = useState(null);
+  const [pagina, setPagina] = useState(null);
+  const [servicoSelect, setServicoSelect] = useState("");
   const startRef = useRef();
   const endRef = useRef();
   const isOwner = perfil?.username == username
@@ -50,7 +52,7 @@ function Calendario() {
     async function buscarIdProfissional(usernam) {
       const { data, error } = await supabase
         .from("profissionais")
-        .select("id")
+        .select("id,  paginas(*)")
         .eq("username", usernam)
         .maybeSingle();
 
@@ -61,6 +63,7 @@ function Calendario() {
       }
 
       setProfissionalId(data.id);
+      setPagina(data.paginas);
       return data;
     }
 
@@ -111,7 +114,7 @@ function Calendario() {
           }
         });
         
-      setEventos(eventosFormatados.concat(bloqueiosGerados));
+      setEventos(eventosFormatados);
     }
 
     carregarEventos(); //funciona sempre que profssionalId mudar
@@ -170,7 +173,7 @@ function Calendario() {
     return [...eventos, ...bloqueiosGerados];
   }, [eventos, bloqueiosGerados]);
 
-  const diasTrabalho = [1,2,3,4,5] //segunda a sexta
+  const diasTrabalho = pagina?.labuta.map((i) => Number(i)) || [1,2,3,4,5] //segunda a sexta
   const hidden = [0,1,2,3,4,5,6].filter(d => !diasTrabalho.includes(d))
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 px-4">
@@ -178,9 +181,9 @@ function Calendario() {
         ref={calendarRef} 
 
 
-        slotDuration="00:15:00" // 30 minutos
-        slotMinTime="08:00:00" //das 8h
-        slotMaxTime="18:01:00" //até 18h
+        slotDuration={pagina?.duracao || "00:30:00"} // X minutos
+        slotMinTime={pagina?.hora_inicio || "08:00:00"} //das Yh
+        slotMaxTime={pagina?.hora_fim || "18:00:00"} //até Zh
 
         hiddenDays={hidden}
 
@@ -201,15 +204,17 @@ function Calendario() {
 
         validRange={!isOwner ? { start: new Date() } : undefined}
 
+        
         datesSet={(info) => {
-          gerarBloqueios(info.start, info.end, setBloqueiosGerados);
+
+          gerarBloqueios(info.start, info.end, setBloqueiosGerados, (pagina?.intervalo || [{end: '14:00', start: '12:00'}]));
         }}
 
         dateClick={(info) => {
           const calendarApi = calendarRef.current.getApi();
           const agora = new Date();
 
-          if ((horarioBloqueado(info.date)) || (info.date <= agora)) return;
+          if ((horarioBloqueado(info.date, pagina?.intervalo)) || (info.date <= agora)) return;
 
           if (calendarApi.view.type !== "timeGridDay") {
             calendarApi.changeView("timeGridDay", info.date);
@@ -220,9 +225,9 @@ function Calendario() {
             }
             const start = info.dateStr.slice(11, 16);
             setStartTime(start);
-            setEndTime(somarMinutos(start, "00:15:00")); // 30 minutos
+            setEndTime(somarMinutos(start, pagina?.duracao)); // 30 minutos
             setSelectedDate(info.date);
-            setTitle("Servição top")
+            setServicoSelect("");
             setMenu(true);
           }
         }}
@@ -265,7 +270,7 @@ function Calendario() {
             classes.push('evento-passado')
           }
 
-          if (horarioBloqueado(arg.event.start)) {
+          if (horarioBloqueado(arg.event.start, pagina?.intervalo)) {
             classes.push('evento-bloqueado')
           }
 
@@ -280,7 +285,7 @@ function Calendario() {
           let current = new Date(selectInfo.start);
 
           while (current < selectInfo.end) {
-            if (horarioBloqueado(current)) return false;
+            if (horarioBloqueado(current, pagina?.intervalo)) return false;
             current.setMinutes(current.getMinutes() + 30); // ajuste para seu slotDuration
           }
 
@@ -299,7 +304,14 @@ function Calendario() {
           <div className="flex flex-col gap-4">
             <p className="text-sm font-medium text-gray-600">Hora inicial:</p><input className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} ref={startRef}/>
             <p className="text-sm font-medium text-gray-600">Hora final:</p><input className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} ref={endRef}/>
-            <p className="text-sm font-medium text-gray-600">Título:</p><input className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+           <select value={servicoSelect} onChange={(e) => setServicoSelect(e.target.value)}>
+              <option value="" hidden>Selecione um serviço</option>
+              {pagina?.servicos?.map((servico, index) => (
+                  <option key={index} value={servico.nome}>
+                      {servico.nome} ({servico.preco} R$)
+                  </option>
+              ))}
+          </select>
             
             {clickEvent == "stranger" && <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
               <input type="checkbox" checked={repeatCount > 0} onChange={(e) => setRepeatCount(e.target.checked ? 1 : 0)}/>
