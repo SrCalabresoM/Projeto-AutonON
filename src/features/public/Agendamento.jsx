@@ -173,7 +173,7 @@ function Calendario() {
     return [...eventos, ...bloqueiosGerados];
   }, [eventos, bloqueiosGerados]);
 
-  const diasTrabalho = pagina?.labuta.map((i) => Number(i)) || [1,2,3,4,5] //segunda a sexta
+  const diasTrabalho = pagina?.labuta?.map((i) => Number(i)) || [1,2,3,4,5] //segunda a sexta
   const hidden = [0,1,2,3,4,5,6].filter(d => !diasTrabalho.includes(d))
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 px-4">
