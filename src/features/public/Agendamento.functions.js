@@ -196,9 +196,9 @@ export async function deleteAll(eventRecurrence, setMenuFalse) {
 export function somarMinutos(hora, duracao) { //função pronta que recebe o horario inicial e a duração e retorna o horário final
   const [h, m] = hora.split(":").map(Number);
   if (!duracao || typeof duracao !== 'string') return hora;
-  const [, minutos] = duracao.split(":").map(Number);
+  const [horas, minutos] = duracao.split(":").map(Number);
 
-  const totalMinutos = h * 60 + m + minutos;
+  const totalMinutos = h * 60 + m + (horas * 60) + minutos;
   const novaHora = Math.floor(totalMinutos / 60) % 24;
   const novoMinuto = totalMinutos % 60;
 

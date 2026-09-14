@@ -223,10 +223,12 @@ function Calendario() {
               window.location.href = "/login";
               return;
             }
-            const start = info.dateStr.slice(11, 16);
+            const start = info.dateStr.slice(11, 19);
             setStartTime(start);
             setEndTime(somarMinutos(start, pagina?.duracao)); // 30 minutos
             setSelectedDate(info.date);
+            console.log(startTime)
+            console.log(endTime)
             setServicoSelect("");
             setMenu(true);
           }
@@ -248,8 +250,10 @@ function Calendario() {
           setEventRecurrrence(info.event.extendedProps.recurrence_uuid)
           setEventoSelecionadoId(info.event.id)
           setSelectedDate(info.event.start)
-          setStartTime(info.event.startStr.slice(11, 16))
-          setEndTime(info.event.endStr.slice(11, 16))
+          setStartTime(info.event.startStr.slice(11, 19))
+          console.log(startTime)
+          console.log(endTime)
+          setEndTime(info.event.endStr.slice(11, 19))
         }}
 
         dayCellClassNames={(arg) => {
