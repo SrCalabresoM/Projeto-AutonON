@@ -1,4 +1,4 @@
-function Identidade({nome, setNome, foto, setFoto, titulo, setTitulo}) {
+function Identidade({nome, setNome, foto, setFoto, titulo, setTitulo, num, setNum}) {
 
     const handleFoto = (e) => {
         const arquivo = e.target.files[0];
@@ -27,6 +27,18 @@ function Identidade({nome, setNome, foto, setFoto, titulo, setTitulo}) {
                     type="text"
                     value={titulo}
                     onChange={(e) => setTitulo(e.target.value)}
+                />
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">Número de Telefone (Ex: 5516999999999)</label>
+                <input
+                    className="w-full px-3 py-2 border border-zinc-300 rounded-lg text-sm shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={num}
+                    onChange={(e) => setNum(e.target.value.replace(/\D/g, ""))}
                 />
             </div>
 

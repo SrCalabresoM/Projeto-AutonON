@@ -36,6 +36,7 @@ function Dashboard() {
         }
     ]);
     const [pagina, setPagina] = useState(null)
+    const [num, setNum] = useState(null)
 
     useEffect(() => {
         if (!user) return;
@@ -134,6 +135,8 @@ function Dashboard() {
                     setTitulo={setTitulo}
                     foto={foto}
                     setFoto={setFoto}
+                    num={num}
+                    setNum={setNum}
                 />
                 
             </div>
@@ -252,6 +255,18 @@ function Dashboard() {
             },
             { onConflict: 'profissional_id' }
         )
+
+                await supabase
+          .from("profissionais")
+          .upsert(
+            {
+              id: profissionalId,
+              num: num
+            },
+            { onConflict: 'id' }
+          )
+
+
     }
     async function uploadImagem(arquivo, tipo) {
 
