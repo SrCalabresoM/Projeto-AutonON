@@ -6,9 +6,9 @@ import Cadastro from "../features/auth/Cadastro.jsx";
 import Login from "../features/auth/Login.jsx"; 
 import Perfil from "../features/auth/Perfil.jsx";
 import PaginaPublica from "../features/public/PaginaPublica.jsx";
-import Criar from "../features/Criar.jsx";
 import Dashboard from "../features/public/Dashboard/Dashboard.jsx";
 import Agendamento from "../features/public/Agendamento.jsx";
+import SobreNoix from "../features/public/sobre_nos.jsx";
 
  function AppRoutes() {
 
@@ -20,7 +20,7 @@ import Agendamento from "../features/public/Agendamento.jsx";
       <Route path="/login" element={<Login />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/a/:username" element={<PaginaPublica />} />
-      <Route path="/criar" element={<Criar />} />
+      <Route path="/sobrenos" element={<SobreNoix />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/agenda/:username" element={<Agendamento />} />
       

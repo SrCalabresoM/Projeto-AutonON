@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 
 const fontCss = `
@@ -54,7 +55,16 @@ export default function Home() {
   const [modal, setModal] = useState({ open: false, title: '', message: '' });
   const navigate = useNavigate();
   const [quant, setQuant] = useState(8);
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location.state?.destin === "servicos") {
+      document.getElementById("profissionais")?.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  }, [location]);
+  
   useEffect(() => {
 
     async function carregarProfissionais() {
@@ -119,7 +129,6 @@ export default function Home() {
     };
   }, []);
 
-  const mostrarModal = (title, message) => setModal({ open: true, title, message });
   const fecharModal = () => setModal((current) => ({ ...current, open: false }));
   const rolarParaHero = () => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
   const voltarAoTopo = () => window.scrollTo({ top: 0, behavior: 'smooth' });
