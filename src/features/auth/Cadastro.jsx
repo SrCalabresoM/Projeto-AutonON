@@ -84,50 +84,99 @@ function Cadastro() {
   return Object.keys(novosErros).length === 0;
 }
 
+
   return (
-  <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 py-8">
-    <form onSubmit={fletchEnvio} className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Criar Conta</h2>
-      
-      <span className="block mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-1">Nome:</p>
-        <input name="nome" value={valores.nome} onChange={onChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
-      </span>
-      {erros.nome && <div className="text-red-500 text-xs mt-1 mb-2">{erros.nome}</div>}
+  <div className="bg-[#F6F7F3] text-[#212529] flex flex-col min-h-screen overflow-x-hidden font-sans antialiased">
+    <style>{`
+      body {
+        font-family: 'Work Sans', sans-serif !important;
+        font-weight: 400;
+      }
 
-      <span className="block mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-1">Username:</p>
-        <input name="username" value={valores.username} onChange={onChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
-      </span>
+      h1, h2, h3, h4, h5, h6,
+      .font-display {
+        font-family: 'Raleway', sans-serif !important;
+      }
 
-      <span className="block mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-1">Email:</p>
-        <input name="email" value={valores.email} onChange={onChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
-      </span>
-      {erros.email && <div className="text-red-500 text-xs mt-1 mb-2">{erros.email}</div>}
+      p, label, input, button, a, nav, select, option {
+        font-family: 'Work Sans', sans-serif !important;
+      }
+    `}</style>
 
-      <span className="block mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-1">Senha:</p>
-        <input name='password' type='password' value={valores.password} onChange={onChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
-      </span>
+    <main className="flex-1 flex items-center justify-center px-4 py-10 sm:px-[8%] lg:py-16">
+      <section className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        <div className="order-2 lg:order-1 flex flex-col items-center justify-center text-center min-h-[280px] lg:min-h-[520px]">
+          <div className="w-full max-w-md aspect-square bg-white border border-[#E2E4DC] rounded-3xl flex items-center justify-center p-6 shadow-sm">
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <span className="block w-full h-4/5 mb-2 overflow-hidden rounded-2xl">
+                <img
+                  src="./imagens/arandu-mascot-review.png"
+                  alt="Harpy, mascote oficial do Arandu"
+                  className="w-full h-full object-contain rounded-2xl"
+                />
+              </span>
 
-      <span className="block mb-6">
-        <p className="text-sm font-semibold text-gray-700 mb-1">Repita a senha:</p>
-        <input name='password2' type='password' value={valores.password2} onChange={onChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
-      </span>
-      {erros.password && <div className="text-red-500 text-xs mt-1 mb-2">{erros.password}</div>}
+              <p className="text-[#2563eb] font-semibold text-sm">Harpy</p>
 
-      <button 
-        disabled={loading} 
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors disabled:bg-blue-300 disabled:cursor-not-allowed"
-      >
-        {loading ? "Enviando..." : "Enviar"}
-      </button>
-    </form>
+              <p className="text-slate-500 text-xs mt-1">Mascote oficial do Arandu</p>
+            </div>
+          </div>
+        </div>
 
-    <div className="mt-6 text-gray-600 text-center">
-      Não tem uma conta? <Link to="/login" className="text-blue-600 hover:underline font-medium">Fazer login</Link>
-    </div>
+        <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="bg-white border border-[#E2E4DC] text-[#212529] w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-sm">
+            <h1 className="font-display text-2xl font-bold text-center text-[#1e293b] mb-6">
+              Criar Conta
+            </h1>
+
+            <form id="form-cadastro" className="flex flex-col gap-4" onSubmit={fletchEnvio}>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="nome" className="text-xs font-semibold text-slate-700">Nome:</label>
+                <input id="nome" name="nome" type="text" required value={valores.nome} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+              </div>
+              {erros.nome && <div className="text-red-500 text-xs mt-1 mb-2">{erros.nome}</div>}
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="username" className="text-xs font-semibold text-slate-700">Nome de usuário:</label>
+                <input id="username" name="username" type="text" required value={valores.username} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="text-xs font-semibold text-slate-700">E-mail:</label>
+                <input id="email" name="email" type="email" required value={valores.email} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+              </div>
+              {erros.email && <div className="text-red-500 text-xs mt-1 mb-2">{erros.email}</div>}
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="password" className="text-xs font-semibold text-slate-700">Senha:</label>
+                <input id="password" name="password" type="password" required value={valores.password} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="password2" className="text-xs font-semibold text-slate-700">Digite a senha novamente:</label>
+                <input id="password2" name="password2" type="password" required value={valores.password2} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+              </div>
+              {erros.password && <div className="text-red-500 text-xs mt-1 mb-2">{erros.password}</div>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="font-display mt-2 w-full bg-[#2563eb] hover:bg-[#1d4ed8] active:scale-[0.98] text-white py-2.5 rounded-lg font-semibold flex items-center justify-center transition-all cursor-pointer shadow-sm disabled:bg-blue-300 disabled:cursor-not-allowed"
+              >
+                <span className="text-base">{loading ? "Enviando..." : "🐰 Enviar 🐰"}</span>
+              </button>
+
+              <p className="mt-2 text-xs text-slate-600 flex items-center justify-center gap-1">
+                Já tem uma conta?
+                <Link to="/login" className="text-[#2563eb] font-semibold hover:underline">
+                  Fazer Login
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 );
 

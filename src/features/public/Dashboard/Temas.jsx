@@ -60,41 +60,41 @@ function Tema({temaSelecionado, setTemaSelecionado}) {
     return (
         <>
 
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-base font-semibold text-gray-800 mb-4">
                 Escolha um tema
             </h2>
 
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
 
                 {temas.map((tema) => (
 
-                    <div key={tema.nome} onClick={() => setTemaSelecionado(tema)} className={`cursor-pointer border rounded-lg overflow-hidden text-left transition-all ${temaSelecionado?.nome === tema.nome ? 'ring-2 ring-indigo-600' : ''}`}>
+                    <div key={tema.nome} onClick={() => setTemaSelecionado(tema)} className={`cursor-pointer border rounded-md overflow-hidden text-left transition-all ${temaSelecionado?.nome === tema.nome ? 'ring-2 ring-blue-600 border-blue-600' : 'border-gray-200 hover:border-gray-400'}`}>
 
                         <div className="h-10" style={{
                             backgroundColor: tema.superficie
                         }}
                         />
 
-                        <div className="p-4" style={{
+                        <div className="p-3" style={{
                             backgroundColor: tema.fundo
                         }}
                         >
 
-                            <p className="font-bold" style={{
+                            <p className="font-semibold text-sm" style={{
                                 color: tema.texto
                             }}
                             >
                                 Nome da Loja
                             </p>
 
-                            <p className="text-sm" style={{
+                            <p className="text-xs" style={{
                                 color: tema.secundario
                             }}
                             >
                                 Sua descrição aqui
                             </p>
 
-                            <button className="mt-3 px-3 py-1 rounded text-white text-sm" style={{
+                            <button className="mt-3 px-3 py-1 rounded text-white text-xs" style={{
                                 backgroundColor: tema.destaque
                             }}
                             >
@@ -130,7 +130,7 @@ function Tema({temaSelecionado, setTemaSelecionado}) {
 
                             </div>
 
-                            <p className="text-sm mt-4 font-medium" style={{
+                            <p className="text-xs mt-4 font-medium" style={{
                                 color: tema.texto
                             }}
                             >

@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import { BrowserRouter, Link, useLocation } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
@@ -16,35 +17,36 @@ function AppContent() {
 
       {!paginaPublica && (
 
-        <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-sm sticky top-0 z-50 md:px-12">
+        <header className="w-full flex flex-wrap items-center justify-between gap-4 px-4 sm:px-[8%] py-3 sm:py-4 bg-[#F0EBE5]/55 backdrop-blur-xl border-b border-white/40 sticky top-0 z-50 shadow-sm">
 
-          <div className="flex gap-4 md:gap-8">
+          <Link to="/" className="group flex items-center shrink-0 rounded-lg p-2 transition-colors duration-300 hover:bg-black/10" aria-label="Ir para a página inicial">
+            <img
+              src="/imagens/autonon-logo.svg"
+              alt="AutonON"
+              className="w-[110px] sm:w-[150px] h-auto"
+            />
+          </Link>
 
-            <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium transition-colors">
-              Home
-            </Link>
+         <nav className="flex flex-1 flex-wrap items-center justify-end gap-4 sm:gap-6 text-sm font-semibold text-[#2A2829]">
 
-            <span className="text-gray-300">|</span>
+          <Link
+            to={user ? "/dashboard" : "/login"}
+            className="shrink-0 font-display bg-[#263A99] text-white py-2.5 px-4 sm:px-5 rounded-full text-xs sm:text-sm font-semibold transition-colors hover:bg-[#2A2829] shadow-sm"
+          >
+            {user ? "Meu Dashboard" : "Acessar AutonON"}
+          </Link>
+           
 
             <Link
               to={user ? "/perfil" : "/cadastro"}
-              className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+              className="hover:text-[#263A99] transition-colors"
             >
               {user ? perfil?.nome || "Perfil" : "Cadastro"}
             </Link>
 
-            <span className="text-gray-300">|</span>
+          </nav>
 
-            <Link
-              to="/criar"
-              className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
-            >
-              Criar
-            </Link>
-
-          </div>
-
-        </nav>
+        </header>
 
       )}
 
@@ -75,4 +77,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

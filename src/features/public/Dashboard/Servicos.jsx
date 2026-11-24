@@ -33,7 +33,7 @@ function Servicos({servicos, setServicos}) {
     return (
         <>
 
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-2xl">
 
                 {servicos.map((servico, index) => (
 
@@ -53,11 +53,11 @@ function Servicos({servicos, setServicos}) {
                                     e.target.value
                                 )
                             }
-                            className="border p-2 rounded w-full"
+                            className="flex-1 min-w-0 h-10 rounded-md border border-gray-300 bg-white px-3 text-sm focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                         />
 
                         <CurrencyInput
-                            className="border p-2 rounded w-40"
+                            className="w-36 h-10 rounded-md border border-gray-300 bg-white px-3 text-sm focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                             placeholder="Preço"
                             intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                             value={servico.preco}
@@ -71,7 +71,7 @@ function Servicos({servicos, setServicos}) {
                         />
 
                         {servicos.length > 1 && (
-                            <button onClick={() => removerServico(index)}>🗑</button>
+                            <button onClick={() => removerServico(index)} className="text-gray-500 hover:text-red-600 text-sm transition-colors">🗑</button>
                         )}
 
                     </div>
@@ -80,9 +80,9 @@ function Servicos({servicos, setServicos}) {
 
             </div>
 
-            <button onClick={adicionarServico} className="mt-4"> + Adicionar serviço</button>
+            <button onClick={adicionarServico} className="mt-4 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"> + Adicionar serviço</button>
         </>
-        
+
     );
 }
 

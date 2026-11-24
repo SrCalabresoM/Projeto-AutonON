@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Apresentação from "./Apresentacao";
 import Identidade from "./Identidade";
@@ -37,6 +38,7 @@ function Dashboard() {
     ]);
     const [pagina, setPagina] = useState(null)
     const [num, setNum] = useState(null)
+    const [confirm, setConfirm] = useState(false);
 
     useEffect(() => {
         if (!user) return;
@@ -56,15 +58,17 @@ function Dashboard() {
 
             setProfissionalId(data.id);
             setPagina(data.paginas);
+            
             return data;
         }
 
+        
         buscarIdProfissional();
 
     }, [user]);
 
     useEffect(() => {
-        if (!pagina) return;
+        if (!pagina && confirm) return;
 
          async function carregarDados() {
             
@@ -95,39 +99,54 @@ function Dashboard() {
     }, [pagina]);
 
 
+    if (!pagina && !confirm) return (
+        <div className="flex flex-col items-center justify-center min-h-[50vh] px-4 text-center">
+      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6 max-w-md leading-relaxed">
+        Você ainda não tem uma página, deseja criar uma?
+      </h2>
+
+      <button
+        onClick={() => setConfirm(true)}
+        className="px-10 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-200 transition-all active:scale-95 hover:-translate-y-0.5"
+      >
+        Criar
+      </button>
+    </div>
+  );
     return (
-    <>
-        <div>
-            <span onClick={() => {setEtapa(1)}} className={etapa == 1 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+    <div className="min-h-screen bg-gray-50">
+        
+        <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-10 py-8">
+        <div className="flex flex-wrap gap-2 mb-8">
+            <button onClick={() => {setEtapa(1)}} className={etapa == 1 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Identidade
-            </span>
+            </button>
 
-            <span onClick={() => {setEtapa(2)}} className={etapa == 2 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+            <button onClick={() => {setEtapa(2)}} className={etapa == 2 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Apresentação
-            </span>
+            </button>
 
-            <span onClick={() => {setEtapa(3)}} className={etapa == 3 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+            <button onClick={() => {setEtapa(3)}} className={etapa == 3 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Serviços
-            </span>
+            </button>
 
-            <span onClick={() => {setEtapa(4)}} className={etapa == 4 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+            <button onClick={() => {setEtapa(4)}} className={etapa == 4 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Galeria
-            </span>
+            </button>
 
-            <span onClick={() => {setEtapa(5)}} className={etapa == 5 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+            <button onClick={() => {setEtapa(5)}} className={etapa == 5 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Tema
-            </span>
+            </button>
 
-            <span onClick={() => {setEtapa(6)}} className={etapa == 6 ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-sm transition-all cursor-pointer' : 'cursor-pointer px-4 py-2 text-zinc-500 hover:text-zinc-800 transition-all'}>
+            <button onClick={() => {setEtapa(6)}} className={etapa == 6 ? 'rounded-full px-5 py-2 text-sm font-medium bg-blue-600 text-black shadow-sm transition-colors' : 'rounded-full px-5 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-colors'}>
                 Disponibilidade
-            </span>
+            </button>
 
         </div>
-        <br></br>
 
         {etapa == 1 && (
             <div>
-                <h2>Identidade</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Identidade</h2>
                 <Identidade 
                     nome={nome}
                     setNome={setNome}
@@ -144,7 +163,7 @@ function Dashboard() {
 
         {etapa == 2 && (
             <div>
-                <h2>Apresentação</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Apresentação</h2>
                 <Apresentação 
                     content={content}
                     setContent={setContent}
@@ -154,7 +173,7 @@ function Dashboard() {
 
         {etapa == 3 && (
             <div>
-                <h2>Serviços</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Serviços</h2>
                 <Servicos 
                     servicos={servicos}
                     setServicos={setServicos}
@@ -165,7 +184,7 @@ function Dashboard() {
 
         {etapa == 4 && (
             <div>
-                <h2>Galeria</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Galeria</h2>
                 <Galeria 
                     imagens={imagens}
                     setImagens={setImagens}
@@ -176,7 +195,7 @@ function Dashboard() {
 
         {etapa == 5 && (
             <div>
-                <h2>Tema</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Tema</h2>
                 <Tema
                     temaSelecionado={temaSelecionado}
                     setTemaSelecionado={setTemaSelecionado}
@@ -187,7 +206,7 @@ function Dashboard() {
 
         {etapa == 6 && (
             <div>
-                <h2>Disponibilidade</h2>
+                <h2 className="font-display text-base font-semibold text-gray-800 mb-4">Disponibilidade</h2>
                 <AgendaConfig
                     duracao={duracao}
                     setDuracao={setDuracao}
@@ -203,27 +222,29 @@ function Dashboard() {
                 
             </div>
         )}
-        <br></br>
 
         {/*botões*/}
-        {etapa > 1 && (
-            <button className="px-4 py-2 text-sm font-medium text-zinc-600 bg-white border border-zinc-200 rounded-lg hover:bg-zinc-50 active:bg-zinc-100 transition-colors" onClick={() => setEtapa(etapa - 1)}>
-                Voltar
-            </button>
-        )}
+        <div className="flex items-center justify-between mt-8">
+            {etapa > 1 && (
+                <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors" onClick={() => setEtapa(etapa - 1)}>
+                    Voltar
+                </button>
+            )}
 
-        {etapa <= 5 && (
-            <button className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 shadow-sm transition-colors" onClick={() => setEtapa(etapa + 1)}>
-                Continuar
-            </button>
-        )}
+            {etapa <= 5 && (
+                <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors" onClick={() => setEtapa(etapa + 1)}>
+                    Continuar
+                </button>
+            )}
 
-        {etapa === 6 && (
-            <button className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 active:bg-emerald-800 shadow-sm transition-colors" onClick={() => salvar()}>
-                Salvar
-            </button>
-        )}
-    </>
+            {etapa === 6 && (
+                <button className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors" onClick={() => salvar()}>
+                    Salvar
+                </button>
+            )}
+        </div>
+        </main>
+    </div>
     );
 
     async function salvar() {

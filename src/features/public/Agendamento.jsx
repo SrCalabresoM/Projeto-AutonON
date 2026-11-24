@@ -214,6 +214,13 @@ function Calendario() {
           const calendarApi = calendarRef.current.getApi();
           const agora = new Date();
 
+          console.log({
+  data: info.date,
+  horario: `${info.date.getHours()}:${info.date.getMinutes()}`,
+  intervalo: pagina?.intervalo,
+  bloqueado: horarioBloqueado(info.date, pagina?.intervalo)
+});
+
           if ((horarioBloqueado(info.date, pagina?.intervalo)) || (info.date <= agora)) return;
 
           if (calendarApi.view.type !== "timeGridDay") {

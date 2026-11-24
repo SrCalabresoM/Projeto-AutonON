@@ -11,7 +11,15 @@ export function AuthContextProvider({ children }) {
 
 
     useEffect(() => {
-      //função setar o usuário
+      //funçaõ de setar o usuário
+      async function carregarSessao() {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+      carregarSessao();
+
       const { data: listener } = supabase.auth.onAuthStateChange(
         (event, session) => {
           setSession(session);
@@ -24,8 +32,6 @@ export function AuthContextProvider({ children }) {
       };
     }, []);
 
-
-
     async function buscarPerfil(userId) {
         
       //busca a linha do usuario na tabela prossionais 
@@ -37,9 +43,7 @@ export function AuthContextProvider({ children }) {
         if (error) {
           console.log("ERRO AO BUSCAR PERFIL:", error);
           return null;
-        }
-
-        
+        }        
 
         return data;
     }

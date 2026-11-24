@@ -33,26 +33,26 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
 
         <>
 
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-base font-semibold text-gray-800 mb-4">
                 Configuração da Agenda
             </h2>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-4 max-w-2xl">
 
-                <div className="border rounded-lg p-4">
+                <div className="border border-gray-200 rounded-md p-4">
 
-                    <h3 className="font-bold mb-4">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-4">
                         Horário de Trabalho
                     </h3>
 
-                    <label className="block mb-2">
+                    <label className="block text-xs font-medium text-gray-700 mb-2">
                         Duração média dos atendimentos
                     </label>
 
                     <select
                         value={duracao}
                         onChange={(e) => setDuracao(e.target.value)}
-                        className="w-full border rounded p-2 mb-4"
+                        className="w-full h-10 border border-gray-300 rounded-md px-3 text-sm mb-4 bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                     >
 
                         <option value="00:15:00">15 minutos</option>
@@ -63,7 +63,7 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
 
                     </select>
 
-                    <label className="block mb-2">
+                    <label className="block text-xs font-medium text-gray-700 mb-2">
                         Início do expediente
                     </label>
 
@@ -71,10 +71,10 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                         type="time"
                         value={horaInicio}
                         onChange={(e) => setHoraInicio(e.target.value)}
-                        className="w-full border rounded p-2 mb-4"
+                        className="w-full h-10 border border-gray-300 rounded-md px-3 text-sm mb-4 bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                     />
 
-                    <label className="block mb-2">
+                    <label className="block text-xs font-medium text-gray-700 mb-2">
                         Fim do expediente
                     </label>
 
@@ -82,16 +82,16 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                         type="time"
                         value={horaFim}
                         onChange={(e) => setHoraFim(e.target.value)}
-                        className="w-full border rounded p-2 mb-4"
+                        className="w-full h-10 border border-gray-300 rounded-md px-3 text-sm mb-4 bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                     />
 
-                     <h3 className="font-bold mb-4 mt-6">
+                     <h3 className="text-sm font-semibold text-gray-800 mb-4 mt-6">
                         Intervalo
                     </h3>
 
                     {intervalo.map((item, index) => (
-                        <div key={index} className="mb-4 border-b pb-4 last:border-0 last:pb-0">
-                            <label className="block mb-2">
+                        <div key={index} className="mb-4 border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                            <label className="block text-xs font-medium text-gray-700 mb-2">
                                 Início do intervalo {index + 1}
                             </label>
                             <input
@@ -102,10 +102,10 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                                     novosIntervalos[index].start = e.target.value;
                                     setIntervalo(novosIntervalos);
                                 }}
-                                className="w-full border rounded p-2 mb-4"
+                                className="w-full h-10 border border-gray-300 rounded-md px-3 text-sm mb-4 bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                             />
 
-                            <label className="block mb-2">
+                            <label className="block text-xs font-medium text-gray-700 mb-2">
                                 Fim do intervalo {index + 1}
                             </label>
                             <div className="flex gap-2">
@@ -117,7 +117,7 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                                         novosIntervalos[index].end = e.target.value;
                                         setIntervalo(novosIntervalos);
                                     }}
-                                    className="w-full border rounded p-2"
+                                    className="w-full h-10 border border-gray-300 rounded-md px-3 text-sm bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                                 />
                                 <button
                                     type="button"
@@ -125,7 +125,7 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                                         const novosIntervalos = intervalo.filter((_, i) => i !== index);
                                         setIntervalo(novosIntervalos);
                                     }}
-                                    className="border border-red-500 text-red-500 rounded p-2 hover:bg-red-50"
+                                    className="border border-red-300 text-red-600 rounded-md px-3 text-sm hover:bg-red-50 transition-colors"
                                 >
                                     Remover
                                 </button>
@@ -136,7 +136,7 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                     <button
                         type="button"
                         onClick={() => setIntervalo([...intervalo, { start: "", end: "" }])}
-                        className="w-full bg-blue-600 text-white rounded p-2 mt-2 hover:bg-blue-700"
+                        className="w-full bg-blue-600 text-white rounded-md p-2 mt-2 text-sm font-medium hover:bg-blue-700 transition-colors"
                     >
                         Adicionar Intervalo
                     </button>
@@ -144,9 +144,9 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
 
                 </div>
 
-                <div className="border rounded-lg p-4">
+                <div className="border border-gray-200 rounded-md p-4">
 
-                    <h3 className="font-bold mb-4">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-4">
                         Dias da Semana
                     </h3>
 
@@ -158,10 +158,10 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                                 key={dia.value}
                                 type="button"
                                 onClick={() => toggleDia(dia.value)}
-                                className={`p-2 rounded border ${
+                                className={`p-2 rounded-md border text-sm transition-colors ${
                                     labuta.includes(dia.value)
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-white'
+                                    ? 'bg-blue-600 text-white border-blue-600'
+                                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'
                                 }`}
                             >
 
@@ -174,9 +174,9 @@ function AgendaConfig({duracao, setDuracao, labuta, setLabuta, horaInicio, setHo
                     </div>
 
 
-                    <div className="mt-6 p-4 rounded bg-gray-100">
+                    <div className="mt-6 p-4 rounded-md bg-gray-100">
 
-                        <p className="font-medium">
+                        <p className="font-semibold text-sm text-gray-800">
                             Resumo
                         </p>
 

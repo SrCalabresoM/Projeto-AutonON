@@ -35,8 +35,8 @@ const Apresentação = ({ placeholder, content, setContent}) => {
 
   return (
     <>
-    <p className='font-bold size-2'>Descrição</p><br></br>
-    <div className='prose'>
+    <p className='text-base font-semibold text-gray-800 mb-3'>Descrição</p>
+    <div className='prose max-w-2xl'>
     <JoditEditor
       ref={editor}
       value={content}
