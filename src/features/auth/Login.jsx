@@ -1,9 +1,12 @@
 import { useState } from "react";
 import useForm from "../../shared/hooks/useForm.jsx";
 import { useAuth } from "../../shared/useAuth.jsx";
-import { supabase } from "../../lib/supabase.js"
+import { supabase } from "../../lib/supabase.js";
+import { Toaster, toast } from 'sonner';
+import { Eye, EyeOff } from "lucide-react";
 
 function Login() {
+
   //declaração de estados e hooks
     const { user, setUser } = useAuth();
   const { valores, onChange } = useForm({
@@ -11,6 +14,7 @@ function Login() {
     password: "",
   });
 
+  const [showPass, setShowPass] = useState(false)
   const [erros, setErros] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +32,7 @@ function Login() {
 
 
     if (error) {
-            console.log(error);
+            toast.error(error.message);
             return;
         }
   }
@@ -41,9 +45,10 @@ function Login() {
     try {
       await enviar()
     } catch (erro) {
-      console.error(erro)
+      toast.error(erro.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
+      toast.success("Login realizado com sucesso");s
     }
   }
   
@@ -84,6 +89,8 @@ function Login() {
     `}</style>
 
     <div className="relative py-3 sm:max-w-xs sm:mx-auto w-full px-4 sm:px-0">
+      <Toaster position="bottom-center" richColors /> 
+    
       <form onSubmit={fletchEnvio} className="min-h-96 px-8 py-8 mt-4 text-left bg-white border border-[#E2E4DC] rounded-2xl shadow-sm">
         <div className="flex flex-col justify-center items-center h-full select-none">
           <div className="flex flex-col items-center justify-center gap-2 mb-6">
@@ -117,16 +124,21 @@ function Login() {
 
           <div className="w-full flex flex-col gap-1.5">
             <label htmlFor="password" className="font-semibold text-xs text-slate-700">Senha</label>
+            <div className="relative mb-6">
             <input
               id="password"
               name="password"
-              type="password"
+              type={showPass ? "text" : "password"} 
               placeholder="Digite aqui"
               required
               value={valores.password}
               onChange={onChange}
-              className="border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2.5 mb-6 text-sm w-full outline-none text-[#212529] placeholder-slate-400 focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
+              className="border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2.5 text-sm w-full outline-none text-[#212529] placeholder-slate-400 focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all"
             />
+            <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#2563eb]">
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+            </div>
             {erros.password && <div className="text-red-500 text-xs mt-1 mb-2">{erros.password}</div>}
           </div>
         </div>

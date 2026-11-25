@@ -1,0 +1,21 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 942 708" width="942" height="708">
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(862,-425,94.805,192.286,6,691)">
+			<stop offset="0" stop-color="#0759f5"/>
+			<stop offset=".52" stop-color="#078cff"/>
+			<stop offset="1" stop-color="#10c2eb"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: #f4f5f8;stroke: #0f7ffb;paint-order:stroke fill markers;stroke-linejoin: round;stroke-width: 18 } 
+		.s1 { fill: #f4f5f8;stroke: #077bfb;paint-order:stroke fill markers;stroke-linejoin: round;stroke-width: 18 } 
+		.s2 { fill: url(#g1) } 
+	</style>
+	<g id="white-shape">
+		<path fill-rule="evenodd" class="s0" d="m564 34l-20-13-25-8-20-3-48-1-20 1-35 8-20 10-17 16-11 15-146 254-96 170-18 35 60-41 55-29 71-29 53-17 103-174 22-41 10-13 5-1 8 7 40 72 54 90h8l57-12 55-14 33-11-14-28-130-227z"/>
+		<path fill-rule="evenodd" class="s1" d="m628 480v3l32 61 58 105 10 15 23 20 21 9 19 3h141v-3l-50-97-95-170-7-2-5 1-64 27-65 22-3 4-3-2-7 2-2 4z"/>
+	</g>
+	<g id="blue-ribbon">
+		<path fill-rule="evenodd" class="s2" d="m866 297l-6-9-21-13-19-5-30-4-45 1v2l13 3 11 9 2 4v10l-17 17-40 17-56 17-44 11-38 6-17 5-90 17-98 23-72 21-88 34-34 16-44 25-34 25-23 23-24 32-17 30-22 52-7 25h218v-4l-6-11-3-21 2-12 8-19 22-28 18-15 24-16 37-19 55-23 76-25 36-9 163-50 59-22 67-28 38-20 24-17 12-12 12-20v-17z"/>
+	</g>
+</svg>

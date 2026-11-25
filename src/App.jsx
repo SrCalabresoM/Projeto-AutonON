@@ -20,7 +20,7 @@ function AppContent() {
         <header className="w-full flex flex-wrap items-center justify-between gap-4 px-4 sm:px-[2%] lg:px-[1%] py-3 sm:py-4 bg-[#F0EBE5]/55 backdrop-blur-xl border-b border-white/40 sticky top-0 z-50 shadow-sm">
 
          <div className="flex items-center gap-3 sm:gap-5">
-          <Link to="/" className="group flex items-center shrink-0 rounded-lg p-2 transition-colors duration-300 hover:bg-black/10" aria-label="Ir para a página inicial">
+          <Link to="/" className="group flex items-center shrink-0 rounded-lg p-2 transition-colors duration-300 hover:bg-black/5" aria-label="Ir para a página inicial">
             <img
               src="/imagens/autonon-logo.svg"
               alt="AutonON"

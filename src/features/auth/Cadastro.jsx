@@ -3,8 +3,11 @@ import useForm from "../../shared/hooks/useForm.jsx";
 import { useAuth } from "../../shared/useAuth.jsx";
 import { supabase } from "../../lib/supabase.js"
 import { Link } from "react-router-dom";
+import { Toaster, toast } from 'sonner';
+import { Eye, EyeOff } from "lucide-react";
 
 function Cadastro() {
+
   //declaração de estados e hooks
     const { user, setUser } = useAuth();
   const { valores, onChange } = useForm({ 
@@ -15,6 +18,7 @@ function Cadastro() {
     password2: ""
   });
 
+  const [showPass, setShowPass] = useState(false);
   const [erros, setErros] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +35,7 @@ function Cadastro() {
     });
 
     if (error) {
-      console.log(error);
+      toast.error(error.message);
       return;
     }
 
@@ -49,8 +53,10 @@ function Cadastro() {
       ]);
 
     if (insertError) {
-      console.log(insertError);
+      toast.error(insertError.message)
       return;
+    } else {
+      toast.success("Cadastro feito!")
     }
 
 }
@@ -83,10 +89,14 @@ function Cadastro() {
 
   return Object.keys(novosErros).length === 0;
 }
+  
 
 
   return (
   <div className="bg-[#F6F7F3] text-[#212529] flex flex-col min-h-screen overflow-x-hidden font-sans antialiased">
+    
+    <Toaster position="bottom-center" richColors /> 
+
     <style>{`
       body {
         font-family: 'Work Sans', sans-serif !important;
@@ -147,15 +157,25 @@ function Cadastro() {
               </div>
               {erros.email && <div className="text-red-500 text-xs mt-1 mb-2">{erros.email}</div>}
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="password" className="text-xs font-semibold text-slate-700">Senha:</label>
-                <input id="password" name="password" type="password" required value={valores.password} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-xs font-semibold text-slate-700">Senha:</label>
+              <div className="relative">
+                <input id="password" name="password" type={showPass ? "text" : "password"} required value={valores.password} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 pr-10 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+                <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#2563eb]">
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
+            </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="password2" className="text-xs font-semibold text-slate-700">Digite a senha novamente:</label>
-                <input id="password2" name="password2" type="password" required value={valores.password2} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password2" className="text-xs font-semibold text-slate-700">Digite a senha novamente:</label>
+              <div className="relative">
+                <input id="password2" name="password2" type={showPass ? "text" : "password"} required value={valores.password2} onChange={onChange} className="w-full border border-[#CBD5E1] bg-[#F9FAFB] rounded-lg px-3 py-2 pr-10 text-sm text-[#212529] outline-none focus:bg-white focus:border-[#2563eb] focus:ring-1 focus:ring-[#2563eb] transition-all" />
+                <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#2563eb]">
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
+            </div>
               {erros.password && <div className="text-red-500 text-xs mt-1 mb-2">{erros.password}</div>}
 
               <button
